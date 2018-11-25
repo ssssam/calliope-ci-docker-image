@@ -2,7 +2,7 @@
 
 set -e
 
-dnf install -y dbus-x11 dconf meson python3-pytest python3-pytest-benchmark
+dnf install -y dbus-x11 dconf meson python3-gobject python3-pytest python3-pytest-benchmark
 
 # We can't use Tracker from Fedora repos right now as we need features that are
 # not yet in any stable release. Once Tracker 2.2 is released we can go back to
