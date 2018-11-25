@@ -30,5 +30,8 @@ dnf mark install libgomp
 # jinja2 requires python3-markupsafe, this prevents it being removed during cleanup.
 dnf mark install python3-markupsafe
 
+# lightfm and spotipy require python3-idna, this prevents it being removed during cleanup
+dnf mark install python3-idna
+
 # dbus-launch warns if there's no /etc/machine-idwarns if there's no /etc/machine-id..
 systemd-machine-id-setup
