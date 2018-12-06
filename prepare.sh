@@ -25,7 +25,7 @@ pip3 install jinja2 lastfmclient lightfm musicbrainzngs spotipy
 dnf install -y gstreamer1-plugins-good
 
 # Documentation dependencies
-dnf install -y python3-sphinx
+dnf install -y python3-sphinx python3-sphinx-click
 
 # lightfm requires libgomp, this prevents it being removed when we uninstall GCC
 dnf mark install libgomp
