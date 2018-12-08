@@ -27,6 +27,10 @@ dnf install -y gstreamer1-plugins-good
 # Documentation dependencies
 dnf install -y python3-sphinx python3-sphinx-click
 
+# The version of pylint packaged by Fedora is too old, at time of writing.
+# We need 2.2.x to ensure Python 3.6 support.
+pip3 install pylint
+
 # lightfm requires libgomp, this prevents it being removed when we uninstall GCC
 dnf mark install libgomp
 
