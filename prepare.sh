@@ -19,7 +19,7 @@ dnf mark install NetworkManager-libnm
 # Needed to build Python packages containing C code.
 dnf install -y python3-devel
 
-pip3 install click parsedatetime pyxdg splitstream yoyo-migrations
+pip3 install click jsonschema parsedatetime pyxdg splitstream yoyo-migrations
 pip3 install mutagen
 pip3 install jinja2 lastfmclient lightfm musicbrainzngs spotipy
 dnf install -y gstreamer1-plugins-good
