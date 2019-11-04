@@ -10,7 +10,7 @@ dnf install -y dbus-x11 dconf glib2-devel meson python3-gobject python3-pytest p
 dnf install -y 'dnf-command(builddep)' dbus-devel gcc git libseccomp-devel libvorbis-devel redhat-rpm-config
 dnf builddep -y tracker
 git clone https://gitlab.gnome.org/GNOME/tracker-miners.git
-mkdir tracker-miners/subprojects && cd tracker-miners/subprojects && git clone https://gitlab.gnome.org/GNOME/tracker.git
+mkdir tracker-miners/subprojects && cd tracker-miners/subprojects && git clone https://gitlab.gnome.org/GNOME/tracker.git && cd -
 mkdir tracker-miners/build && cd tracker-miners/build; meson .. -Dprefix=/usr -Ddocs=false -Dminer_rss=false -Dtracker_core=subproject -Dfunctional_tests=false -Dtracker:functional_tests=false -Dtracker:docs=false && ninja && ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 # This will be auto-removed if we don't mark it installed.
