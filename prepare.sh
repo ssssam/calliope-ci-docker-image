@@ -11,13 +11,14 @@ dnf install -y 'dnf-command(builddep)' dbus-devel gcc git libseccomp-devel libvo
 dnf builddep -y tracker
 git clone https://gitlab.gnome.org/GNOME/tracker-miners.git
 mkdir tracker-miners/subprojects && cd tracker-miners/subprojects && git clone https://gitlab.gnome.org/GNOME/tracker.git && cd -
-mkdir tracker-miners/build && cd tracker-miners/build; meson .. -Dprefix=/usr -Ddocs=false -Dminer_rss=false -Dtracker_core=subproject -Dfunctional_tests=false -Dtracker:functional_tests=false -Dtracker:docs=false && ninja && ninja install
+mkdir tracker-miners/build && cd tracker-miners/build
+meson .. -Dprefix=/usr -Ddocs=false -Dminer_rss=false -Dtracker_core=subproject -Dfunctional_tests=false -Dtracker:functional_tests=false -Dtracker:docs=false && ninja && ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 # This will be auto-removed if we don't mark it installed.
 dnf mark install NetworkManager-libnm
 
-# Needed to build Python packages containing C code.
-dnf install -y python3-devel
+# Python3-devel is needed to install Python packages containing C code with pip
+dnf install -y python3-devel python3-pip
 
 pip3 install click jsonschema parsedatetime pyxdg splitstream yoyo-migrations
 pip3 install mutagen
