@@ -16,8 +16,8 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 # This will be auto-removed if we don't mark it installed.
 dnf mark install NetworkManager-libnm
 
-# Needed to build Python packages containing C code.
-dnf install -y python3-devel
+# Python3-devel is needed to install Python packages containing C code with pip
+dnf install -y python3-devel python3-pip
 
 pip3 install click parsedatetime pyxdg splitstream yoyo-migrations
 pip3 install mutagen
