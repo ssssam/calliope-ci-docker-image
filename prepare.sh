@@ -2,23 +2,14 @@
 
 set -e
 
-dnf install -y dbus-x11 dconf glib2-devel meson python3-gobject python3-pytest python3-pytest-benchmark python3-pyyaml
+# Install what we can from DNF.
+dnf install -y dbus-x11 dconf glib2-devel meson python3-gobject python3-pytest python3-pytest-benchmark python3-pyyaml tracker tracker-miners
 
-# We can't use Tracker from Fedora repos right now as we need features that are
-# not yet in any stable release. Once Tracker 2.2 is released we can go back to
-# installing frm DNF.
-dnf install -y 'dnf-command(builddep)' dbus-devel gcc git libseccomp-devel libvorbis-devel redhat-rpm-config
-dnf builddep -y tracker
-git clone https://gitlab.gnome.org/GNOME/tracker-miners.git
-mkdir tracker-miners/subprojects && cd tracker-miners/subprojects && git clone https://gitlab.gnome.org/GNOME/tracker.git && cd -
-mkdir tracker-miners/build && cd tracker-miners/build
-meson .. -Dprefix=/usr -Ddocs=false -Dminer_rss=false -Dtracker_core=subproject -Dfunctional_tests=false -Dtracker:functional_tests=false -Dtracker:docs=false && ninja && ninja install
-glib-compile-schemas /usr/share/glib-2.0/schemas
-# This will be auto-removed if we don't mark it installed.
-dnf mark install NetworkManager-libnm
-
-# Python3-devel is needed to install Python packages containing C code with pip
-dnf install -y python3-devel python3-pip
+# Install the remaining deps from PyPI.
+#
+# Some dependencies contain C code, so we need a C toolchain available during this process.
+# Non exhaustive list: splitstream
+dnf install -y gcc python3-devel python3-pip redhat-rpm-config
 
 pip3 install click jsonschema parsedatetime pyxdg splitstream yoyo-migrations
 pip3 install mutagen
