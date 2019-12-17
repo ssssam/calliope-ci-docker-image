@@ -1,0 +1,51 @@
+image: 'registry.fedoraproject.org/fedora:30'
+
+stages:
+  - distro
+
+# Buildah can't use 'overlay' driver when running inside docker
+variables:
+  STORAGE_DRIVER: 'vfs'
+
+# Expects $IMAGE which should be the name+tag of the registry image.
+# Expects $DOCKERFILE variable which should be the path to the dockerfile
+# Expects $CONTEXT_DIR variable which should be the name of the parrent folder of the dockerfile
+.base:
+  script:
+    - dnf install -y buildah podman
+    - buildah login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+    # Newer versions of podman/buildah try to set overlayfs mount options when
+    # using the vfs driver, and this causes errors.
+    - sed -i '/^mountopt =.*/d' /etc/containers/storage.conf
+
+    - podman build --cgroup-manager=cgroupfs --format=docker --pull -f ${DOCKERFILE} -t ${IMAGE} ${CONTEXT_DIR}
+
+    - |
+      if [ "$CI_COMMIT_REF_NAME" = "master" ]; then
+          podman push --creds $CI_REGISTRY_USER:$CI_REGISTRY_PASSWORD ${IMAGE}
+      else
+          echo "Not pushing image, as we are on non-master branch $CI_COMMIT_REF_NAME"
+      fi
+
+# Expects $ARCH variable which should be the architexcture of the image ex. x86_64
+# Expects $DISTRO_NAME variable which should be the name of the distro image ex. ubuntu
+# Expects $DISTRO_VER variable which should be the version distro image ex. 18.04
+# Expects $DOCKERFILE variable which should be the path to the dockerfile
+.distro build:
+  stage: distro
+  before_script:
+    - export IMAGE=${CI_REGISTRY_IMAGE}/${ARCH}/${DISTRO_NAME}:${DISTRO_VER}
+  extends: '.base'
+
+fedora latest:
+  extends: '.distro build'
+  variables:
+    ARCH: "amd64"
+    DISTRO_NAME: "fedora"
+    DISTRO_VER: "latest"
+    DOCKERFILE: "fedora/latest"
+    CONTEXT_DIR: "fedora"
+  only:
+    changes:
+      - 'fedora/*'
