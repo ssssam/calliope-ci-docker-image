@@ -3,7 +3,7 @@
 set -e
 
 # Install what we can from DNF.
-dnf install -y dbus-x11 dconf glib2-devel meson python3-gobject python3-pytest python3-pytest-benchmark python3-pyyaml tracker tracker-miners
+dnf install -y dbus-x11 dconf glib2-devel libmediaart-devel meson python3-gobject python3-pytest python3-pytest-benchmark python3-pyyaml tracker tracker-miners
 
 # Install the remaining deps from PyPI.
 #
