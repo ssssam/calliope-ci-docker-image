@@ -11,7 +11,7 @@ dnf install -y dbus-x11 dconf glib2-devel meson python3-gobject python3-pytest p
 # Non exhaustive list: splitstream
 dnf install -y gcc python3-devel python3-pip redhat-rpm-config
 
-pip3 install click jsonschema parsedatetime pyxdg splitstream yoyo-migrations
+pip3 install click jsonschema parsedatetime splitstream yoyo-migrations
 pip3 install mutagen
 pip3 install jinja2 lastfmclient lightfm musicbrainzngs spotipy
 dnf install -y gstreamer1-plugins-good
